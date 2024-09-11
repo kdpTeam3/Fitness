@@ -1,0 +1,11 @@
+.set-container {
+    display: flex;
+    align-items: center; /* 세로 가운데 정렬 */
+    margin-bottom: 15px; /* 아래쪽 여백 */
+    margin-top: 15px;
+}
+.set-container input{
+    width: 70px; /* 세트 input width */
+    margin-right: 20px; /* 세트 input margin-right */
+    text-align: right; /* 세트 input text-align */
+}

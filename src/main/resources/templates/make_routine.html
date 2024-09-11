@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <!-- sbb CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/custom.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/make_routine.css}">
+</head>
+<body>
+<!-- 네비게이션 바 -->
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
+
+<h1>루틴 만들기</h1>
+<button type="button" onclick="location.href='/workout/my_routine'">뒤로가기</button>
+
+<hr>
+
+<!-- 운동 정보 폼 -->
+<div>
+    <form th:action="@{/workout/make_routine}" th:object="${routineUpdateDto}" method="post" id="routine-form">
+
+        <label for="routinename">루틴 이름을 입력하세요</label>
+        <input type="text" id="routinename" th:field="*{routinename}" placeholder="루틴 이름 입력"><br>
+
+        <div id="exercise-container">
+            <!-- 초기 운동 입력 필드 -->
+            <div class="exercise-group">
+                <label for="workout1">운동:</label>
+                <input type="text" id="workout1" name="workout" placeholder="운동 입력"><br>
+
+                <div class="set-container" id="set-container">
+                    <label for="weight1">무게:&nbsp;</label>
+                    <input type="number" class="weight" id="weight1" name="weight" placeholder="kg"><br>
+
+                    <label for="reps1">반복:&nbsp;</label>
+                    <input type="number" class="reps" id="reps1" name="reps" placeholder="회"><br>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="addSet()">세트 추가하기</button>
+        <br><br>
+        <button type="button" onclick="removeSet()">세트 취소하기</button>
+        <br><br>
+        <input type="submit" value="제출">
+    </form>
+</div>
+<hr>
+
+<script>
+    let setCount = 1;
+
+    function addSet() {
+        setCount++;
+
+        const container = document.getElementById('exercise-container');
+
+        // 새로운 운동 입력 필드 그룹을 생성
+        const newGroup = document.createElement('div');
+        newGroup.classList.add('exercise-group');
+        newGroup.innerHTML = `
+            <div class = "set-container" id="set-container${setCount}">
+                <div class = "weight">
+                    <label for="weight${setCount}">무게:</label>
+                    <input type="number" id="weight${setCount}" name="weight" placeholder="kg"><br>
+                </div>
+                <div class = "reps">
+                    <label for="reps${setCount}">반복:</label>
+                    <input type="number" id="reps${setCount}" name="reps" placeholder="회"><br>
+                </div>
+            </div>
+        `;
+        container.appendChild(newGroup);
+        document.getElementById(`weight${setCount}`).focus();
+
+    }
+
+    function removeSet() {
+        const container = document.getElementById('exercise-container');
+        const exerciseGroups = container.getElementsByClassName('exercise-group');
+
+        if (exerciseGroups.length > 1) {
+            container.removeChild(exerciseGroups[exerciseGroups.length - 1]);
+            setCount--;
+        }
+    }
+
+</script>
+
+<!-- Bootstrap JS 및 Popper.js 추가 -->
+<script th:src="@{/popper.min.js}"></script> <!-- Popper.js 추가 -->
+<script th:src="@{/bootstrap.min.js}"></script> <!-- Bootstrap JS 추가 -->
+</body>
+</html>
