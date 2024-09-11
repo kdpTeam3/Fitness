@@ -19,20 +19,13 @@ public class SiteUser {
 
     // 이 부분에 userId 속성을 추가합니다.
 
-    private String userId;
+    
 
     @Column(unique = true)
     private String username;
     private String email;
     private String password;
-    private String workout;
+    
 
-    // getter와 setter 메서드 추가
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }
