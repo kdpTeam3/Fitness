@@ -1,10 +1,6 @@
 package com.mysite.sbb.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +15,13 @@ public class SiteUser {
 
     // 이 부분에 userId 속성을 추가합니다.
 
-    
+
 
     @Column(unique = true)
     private String username;
     private String email;
     private String password;
-    
+
 
 
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>답변 관리</title>
+</head>
+<body>
+<div layout:fragment="content" class="container my-3">
+  <h2 class="mb-4">답변 관리</h2>
+  <a th:href="@{/manage}" class="btn btn-secondary mb-3">관리자 홈으로</a>
+  <table class="table table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>내용</th>
+      <th>작성자</th>
+      <th>작성일시</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="answer : ${answers}">
+      <td th:text="${answer.id}"></td>
+      <td th:text="${#strings.abbreviate(answer.content, 50)}"></td>
+      <td th:text="${answer.author.username}"></td>
+      <td th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+      <td>
+        <a th:href="@{|/manage/answer/modify/${answer.id}|}" class="btn btn-sm btn-primary">수정</a>
+        <a th:href="@{|/manage/answer/delete/${answer.id}|}" class="btn btn-sm btn-danger"
+           onclick="return confirm('정말로 이 답변을 삭제하시겠습니까?')">삭제</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

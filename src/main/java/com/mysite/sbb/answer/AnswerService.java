@@ -1,6 +1,7 @@
 package com.mysite.sbb.answer;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import com.mysite.sbb.DataNotFoundException;
@@ -47,7 +48,7 @@ public class AnswerService {
 			throw new DataNotFoundException("answer not found");
 		}
 	}
-	
+
 	public void modify(Answer answer, String content) {
 		answer.setContent(content);
 		answer.setModifyDate(LocalDateTime.now());
