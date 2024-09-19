@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <title>질문 등록</title>
+</head>
+<body>
+    <!-- 네비게이션 바 -->
+    <nav th:replace="~{navbar :: navbarFragment}"></nav>
+
+    <div class="container mt-5">
+        <h2>질문 등록</h2>
+        <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+            
+            <!-- 제목 필드 -->
+            <div class="mb-3">
+                <div th:if="${#fields.hasErrors('subject')}" class="alert alert-danger" role="alert">
+                    <span th:errors="*{subject}"></span>
+                </div>
+                <label for="subject" class="form-label">제목</label>
+                <input type="text" th:field="*{subject}" class="form-control" id="subject">
+            </div>
+
+            <!-- 내용 필드 -->
+            <div class="mb-3">
+                <div th:if="${#fields.hasErrors('content')}" class="alert alert-danger" role="alert">
+                    <span th:errors="*{content}"></span>
+                </div>
+                <label for="content" class="form-label">내용</label>
+                <textarea th:field="*{content}" class="form-control" id="content" rows="10"></textarea>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <button type="submit" class="btn btn-primary">등록</button>
+        </form>
+    </div>
+
+    <!-- 스크립트 -->
+    <script th:src="@{/popper.min.js}"></script>
+    <script th:src="@{/bootstrap.min.js}"></script>
+</body>
+</html>
