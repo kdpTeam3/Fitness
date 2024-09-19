@@ -57,12 +57,13 @@ public class QuestionService {
     	
      }
     
-    public void modify(Question question, String subject,String content)
-    {
-    	question.setSubject(subject);
-    	question.setContent(content);
-    	question.setModifyDate(LocalDateTime.now());
-    	this.questionRepository.save(question);
+    public void modify(Question question, String subject, String content) {
+        question.setSubject(subject);
+        question.setContent(content);
+        question.setModifyDate(LocalDateTime.now());
+        this.questionRepository.save(question); // 기존 객체를 그대로 저장하여 수정
+    
+
     }
     public void delete(Question question) {
     	this.questionRepository.delete(question);
