@@ -50,10 +50,10 @@ public class AnswerService {
 		}
 	}
 
-    public Page<Answer> getList(int page) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("createDate").descending());
-        return this.answerRepository.findAll(pageable);
-    }
+	public Page<Answer> getList(int page) {
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("createDate").descending());
+		return this.answerRepository.findAll(pageable);
+	}
 
 	public void modify(Answer answer, String content) {
 		answer.setContent(content);

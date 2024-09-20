@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter  // Lombok을 사용해 getter 메서드를 자동으로 생성합니다.
-@Setter  // Lombok을 사용해 setter 메서드를 자동으로 생성합니다.
+@Getter // Lombok을 사용해 getter 메서드를 자동으로 생성합니다.
+@Setter // Lombok을 사용해 setter 메서드를 자동으로 생성합니다.
 public class UserCreateForm {
 
     // 사용자 ID: 영문자와 숫자로만 구성되며, 5자 이상 15자 이하로 제한
@@ -25,10 +25,11 @@ public class UserCreateForm {
     private String password2;
 
     // 이메일: 정규 표현식으로 유효한 이메일 형식 검증
-//    @NotEmpty(message = "이메일은 필수 항목입니다.")
-//    @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9-_.]*@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-_]+(\\.[a-zA-Z0-9-_]+)?$",
-//             message = "유효한 이메일 주소를 입력해주세요.")
-//    private String email;
+    // @NotEmpty(message = "이메일은 필수 항목입니다.")
+    // @Pattern(regexp =
+    // "^[a-zA-Z0-9][a-zA-Z0-9-_.]*@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-_]+(\\.[a-zA-Z0-9-_]+)?$",
+    // message = "유효한 이메일 주소를 입력해주세요.")
+    // private String email;
     @NotEmpty(message = "이메일은 필수 항목입니다.")
     @Email(message = "유효한 이메일 주소를 입력해주세요.")
     private String email;
