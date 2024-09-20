@@ -108,7 +108,7 @@ public class QuestionController {
 	    this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
 	    return String.format("redirect:/question/detail/%s", id);
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete/{id}")
 	public String questionDelete(Principal principal, @PathVariable("id") Integer id) {

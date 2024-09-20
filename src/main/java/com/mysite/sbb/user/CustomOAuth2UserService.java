@@ -14,8 +14,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
@@ -69,8 +67,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         return new DefaultOAuth2User(
             Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-            customAttributes,
-            "name" // 사용자 이름 또는 닉네임을 기본 키로 설정
+            customAttributes,  // 사용자 정보가 담긴 attributes 맵
+            "username"  // 기본 식별자로 사용할 필드
         );
     }
 }
