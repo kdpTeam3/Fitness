@@ -14,12 +14,12 @@ import com.mysite.sbb.workout_tab.workoutSet.WorkoutSet;
 import com.mysite.sbb.workout_tab.workoutSet.WorkoutSetService;
 import com.mysite.sbb.workout_tab.workoutSet.WorkoutSetUpdateDto;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -91,7 +91,6 @@ public class WorkoutController {
     }
 
     // 루틴 데이터 처리
-    @Transactional
     @PostMapping("/make_routine")
     public String makeRoutinePost(Model model, RoutineUpdateDto routineUpdateDto, Principal principal) {
 
@@ -146,4 +145,6 @@ public class WorkoutController {
         model.addAttribute("routines",routines);
         return "my_routine";
     }
+
+
 }

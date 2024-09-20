@@ -2,6 +2,7 @@ package com.mysite.sbb.workout_tab.workoutSet;
 
 import com.mysite.sbb.workout_tab.workout.Workout;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -12,14 +13,17 @@ public class WorkoutSet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "workout_id", nullable = false)
+    @JoinColumn(name = "workout_id")
     private Workout workout;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column
     private Integer weight;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column
     private Integer reps;
 
     public WorkoutSet(){}

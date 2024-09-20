@@ -3,6 +3,7 @@ package com.mysite.sbb.workout_tab.workout;
 import com.mysite.sbb.workout_tab.routine.Routine;
 import com.mysite.sbb.workout_tab.workoutSet.WorkoutSet;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ public class Workout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "routine_id",nullable = false) // 루틴 ID로 참조
+    @JoinColumn(name = "routine_id") // 루틴 ID로 참조
     private Routine routine;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column
     private String workout_name;
 
 

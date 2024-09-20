@@ -3,6 +3,7 @@ package com.mysite.sbb.workout_tab.routine;
 import com.mysite.sbb.user.SiteUser;
 import com.mysite.sbb.workout_tab.workout.Workout;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;
@@ -16,10 +17,12 @@ public class Routine {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "user_id")
     private SiteUser siteUser;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column
     private String routine_name;
 
     @OneToMany(mappedBy = "routine"  , cascade = CascadeType.ALL, orphanRemoval = true)
