@@ -1,5 +1,10 @@
 package com.mysite.sbb.user;
 
+import java.util.Collections;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -7,12 +12,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -61,14 +60,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 사용자 정보 반환을 위한 customAttributes 설정
         Map<String, Object> customAttributes = Map.of(
-            "id", username,
-            "name", username
-        );
+                "id", username,
+                "name", username);
 
         return new DefaultOAuth2User(
-            Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-            customAttributes,  // 사용자 정보가 담긴 attributes 맵
-            "username"  // 기본 식별자로 사용할 필드
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
+                customAttributes, // 사용자 정보가 담긴 attributes 맵
+                "username" // 기본 식별자로 사용할 필드
         );
     }
 }
