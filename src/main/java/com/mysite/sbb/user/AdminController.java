@@ -1,13 +1,11 @@
 package com.mysite.sbb.user;
 
-import com.mysite.sbb.answer.Answer;
-import com.mysite.sbb.answer.AnswerForm;
-import com.mysite.sbb.answer.AnswerService;
-import com.mysite.sbb.question.Question;
-import com.mysite.sbb.question.QuestionForm;
-import com.mysite.sbb.question.QuestionService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import java.security.Principal;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
-import java.util.List;
+import com.mysite.sbb.answer.Answer;
+import com.mysite.sbb.answer.AnswerService;
+import com.mysite.sbb.question.Question;
+import com.mysite.sbb.question.QuestionForm;
+import com.mysite.sbb.question.QuestionService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/manage")
@@ -26,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
     private final UserService userService;
     private final QuestionService questionService;
     private final AnswerService answerService;
@@ -43,6 +50,21 @@ public class AdminController {
         return "redirect:/manage";
     }
 
+    @GetMapping("/question/list")
+    public String questionList(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+        try {
+            logger.info("Fetching question list for page: {}", page);
+            Page<Question> paging = questionService.getList(page);
+            logger.info("Fetched {} questions", paging.getContent().size());
+            model.addAttribute("paging", paging);
+            return "admin_question_list";
+        } catch (Exception e) {
+            logger.error("Error fetching question list", e);
+            model.addAttribute("errorMessage", "질문 목록을 불러오는 중 오류가 발생했습니다.");
+            return "error_page";
+        }
+    }
+
     @GetMapping("/question/modify/{id}")
     public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
         Question question = this.questionService.getQuestion(id);
@@ -53,7 +75,7 @@ public class AdminController {
 
     @PostMapping("/question/modify/{id}")
     public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult,
-                                 Principal principal, @PathVariable("id") Integer id) {
+            Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "question_form";
         }
@@ -69,28 +91,39 @@ public class AdminController {
         return "redirect:/manage/question/list";
     }
 
+    @GetMapping("/answer/list")
+    public String answerList(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<Answer> paging = answerService.getList(page);
+        model.addAttribute("paging", paging);
+        return "admin_answer_list";
+    }
+
+    @GetMapping("/answer/detail/{id}")
+    public String answerDetail(Model model, @PathVariable("id") Integer id) {
+        Answer answer = answerService.getAnswer(id);
+        model.addAttribute("answer", answer);
+        return "admin_answer_detail";
+    }
+
     @GetMapping("/answer/modify/{id}")
-    public String answerModify(AnswerForm answerForm, @PathVariable("id") Integer id, Principal principal) {
-        Answer answer = this.answerService.getAnswer(id);
-        answerForm.setContent(answer.getContent());
-        return "answer_form";
+    public String answerModify(@PathVariable("id") Integer id, Model model) {
+        Answer answer = answerService.getAnswer(id);
+        model.addAttribute("answer", answer);
+        return "admin_answer_form";
     }
 
     @PostMapping("/answer/modify/{id}")
-    public String answerModify(@Valid AnswerForm answerForm, BindingResult bindingResult,
-                               @PathVariable("id") Integer id, Principal principal) {
-        if (bindingResult.hasErrors()) {
-            return "answer_form";
-        }
-        Answer answer = this.answerService.getAnswer(id);
-        this.answerService.modify(answer, answerForm.getContent());
+    public String answerModify(@PathVariable("id") Integer id, @RequestParam String content) {
+        Answer answer = answerService.getAnswer(id);
+        answerService.modify(answer, content);
         return "redirect:/manage/answer/list";
     }
 
     @GetMapping("/answer/delete/{id}")
-    public String answerDelete(Principal principal, @PathVariable("id") Integer id) {
-        Answer answer = this.answerService.getAnswer(id);
-        this.answerService.delete(answer);
+    public String answerDelete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        Answer answer = answerService.getAnswer(id);
+        answerService.delete(answer);
+        redirectAttributes.addFlashAttribute("message", "답변이 삭제되었습니다.");
         return "redirect:/manage/answer/list";
     }
 }

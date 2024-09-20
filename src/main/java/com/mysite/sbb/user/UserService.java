@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final QuestionRepository questionRepository;
@@ -34,13 +34,13 @@ public class UserService {
 
     // username을 바탕으로 사용자 조회
     public SiteUser getUser(String username) {
-        Optional<SiteUser> siteUser =  this.userRepository.findByUsername(username);
-        if(siteUser.isPresent()) {
+        Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
+        if (siteUser.isPresent()) {
             System.out.println("User found: " + siteUser.get().getUsername());
         } else {
             System.out.println("User not found with username: " + username);
         }
-        return siteUser.orElse(null);  // 사용자 정보를 찾지 못하면 null을 반환
+        return siteUser.orElse(null); // 사용자 정보를 찾지 못하면 null을 반환
     }
 
     public SiteUser findByUsername(String username) {
@@ -70,5 +70,9 @@ public class UserService {
         answerRepository.deleteByAuthor(siteUser);
         // 최종적으로 사용자 삭제
         this.userRepository.delete(siteUser);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
