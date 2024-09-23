@@ -46,7 +46,13 @@ public class AdminController {
 
     @PostMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+        SiteUser siteUser = userService.getUserById(id);
+        if (siteUser != null) {
+            userService.delete(siteUser);
+            logger.info("User deleted: {}", id);
+        } else {
+            logger.warn("Attempt to delete non-existent user: {}", id);
+        }
         return "redirect:/manage";
     }
 
