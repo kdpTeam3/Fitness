@@ -74,4 +74,9 @@ input.form-control {
     text-decoration: underline;
 }
 .modal-lg{
-    max-width: 800px; }
+    max-width: 800px;
+}
+
+#saveWorkout{
+
+}
